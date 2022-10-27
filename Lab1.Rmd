@@ -1,0 +1,119 @@
+# 1. Створити змінні базових (atomic) типів. Базові типи: character, numeric, integer, complex, logical.
+
+```{r}
+char <- "character" 
+char
+print(class(char))
+
+num <- 15
+num
+print(class(num))
+
+int <- 10L 
+int
+print(class(int))
+
+compl <- 18+2i
+compl
+print(class(compl))
+
+log <- TRUE
+log
+print(class(log))
+
+```
+
+# 2. Створити вектори, які: містить послідовність з 5 до 75; містить числа 3.14, 2.71, 0, 13; 100 значень TRUE.
+
+```{r}
+vec1 <- c(5:75)
+vec1
+
+vec2 <- c(3.14, 2.71, 0, 13)
+vec2 
+
+vec3 <- c(rep (TRUE,100))
+vec3
+```
+
+# 3. Створити наступну матрицю за допомогою matrix, та за допомогою cbind та rbind
+
+    |     |     |     |
+    |:---:|:---:|:---:|
+    | 0.5 | 1.3 | 3.5 |
+    | 3.9 | 131 | 2.8 |
+    |  0  | 2.2 | 4.6 |
+    |  2  |  7  | 5.1 |
+
+```{r}
+# matrix()
+
+mat1.data <- c(0.5, 3.9, 0, 2, 1.3, 131, 2.2, 7, 3.5, 2.8, 4.6, 5.1) 
+mat1 <- matrix(mat1.data, nrow=4, ncol=3) 
+cat('Create matrix with "matrix" command\n')
+mat1
+
+
+# rbind()
+mat2.data1 <- c(0.5, 1.3, 3.5) 
+mat2.data2 <- c(3.9, 131, 2.8) 
+mat2.data3 <- c(0, 2.2, 4.6) 
+mat2.data4 <- c(2, 7, 5.1)
+
+mat2 <- rbind(mat2.data1, mat2.data2, mat2.data3, mat2.data4) 
+cat('Create matrix with "rbind" command\n')
+mat2
+
+# cbind()
+mat3.data1 <- c(0.5, 3.9, 0, 2) 
+mat3.data2 <- c(1.3, 131, 2.2, 7) 
+mat3.data3 <- c(3.5, 2.8, 4.6, 5.1)
+
+mat3 <- cbind(mat3.data1, mat3.data2, mat3.data3)
+cat('Create matrix with "cbind" command\n')
+mat3
+```
+
+# 4. Створити довільний список (list), в який включити всі базові типи.
+
+```{r}
+my_list <- list(char, num, int, log, compl)
+    for (item in my_list) {
+        print(item)
+        print(class(item))
+    }
+```
+
+# 5. Створити фактор з трьома рівнями «baby», «child», «adult».
+
+```{r}
+F <- factor(c("adult","baby", "baby", "child", "adult", "baby", "adult", "baby", "baby"))   
+F
+```
+
+# 6. Знайти індекс першого значення NA в векторі 1, 2, 3, 4, NA, 6, 7, NA, 9, NA, 11. Знайти кількість значень NA.
+
+```{r}
+my_vector <- c(1, 2, 3, 4, NA, 6, 7, NA, 9, NA, 11, 1) 
+match(c (NA), my_vector)
+```
+
+# 7. Створити довільний data frame та вивести в консоль.
+
+```{r}
+Name <- c("Adam", "Nelson", "Mike", "Sasha", "Vadim") 
+Age <- c(11, 22, 33, 55, 44)
+
+dF <- data.frame(Name, Age)
+
+print (dF)
+```
+
+# 8. Змінити імена стовпців цього data frame.
+
+```{r}
+colnames (dF)[1] = "UserNames" 
+colnames (dF)[2] = "UserAges"
+
+print (dF)
+```
