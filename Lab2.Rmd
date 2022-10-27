@@ -1,0 +1,48 @@
+# 1. Створіть вектор v із 100 елементів командою v \<- rnorm(100). Для цього вектору виведіть: 10-й елемент; елементи з 10-го по 20-й включно; 10 елементів починаючи з 20-го; елементи більше 0.
+
+```{r}
+v <- rnorm(100)
+cat('Create vector with 100 elements\n')
+print(v)
+
+cat('Print element №10 \n')
+print(v[10])
+
+cat('Print elements between 10 and 20\n')
+print(v[10:20])
+
+cat('Print 10 elements from 20\n')
+print(v[20:30])
+
+cat('Print elements > 0\n')
+print(v[v>0])
+```
+
+# 2. Створити фрейм (data frame) y командою y \<- data.frame(a = rnorm(100), b = 1:100, cc = sample(letters, 100, replace = TRUE)). Для цього data frame виведіть: останні 10 строк; строки з 10 по 20 включно; 10-й елемент стовпця b; повністю стовпець cc, при цьому використайте ім'я стовпця.
+
+```{r}
+
+my_dataFrame <- data.frame(a = rnorm(100), b= 1:100, cc = sample(letters, 100, replace = TRUE))
+my_dataFrame               
+
+print(tail(my_dataFrame, n = 10)) 
+
+print(my_dataFrame[10:20,])
+
+print(my_dataFrame[10,2])
+
+print(my_dataFrame$cc)
+```
+
+# 3 Створити вектор z з елементами 1, 2, 3, NA, 4, NA, 5, NA. Для цього вектору: виведіть всі елементи, які не NA; підрахуйте середнє значення всіх елементів цього вектору без NA значень та з NA значеннями
+
+```{r}
+
+my_vector <- c(1, 2, 3, NA, 4, NA, 5, NA)
+
+which(my_vector != is.na(my_vector))
+
+mean(my_vector, na.rm = TRUE)
+
+mean(my_vector, na.rm = FALSE)
+```
