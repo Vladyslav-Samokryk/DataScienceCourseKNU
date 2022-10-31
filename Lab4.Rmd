@@ -1,0 +1,64 @@
+# 1. Прочитати файл
+
+```{r}
+hw4File <- read.csv(file = "D:/DataScience/hw1_data.csv")
+```
+
+# 2. Вивести назви стовпців файлу даних
+
+```{r}
+colnames(hw4File) 
+```
+
+# 3. Вивести перші 6 рядків дата фрейму
+
+```{r}
+head(hw4File, 6)
+```
+
+# 4. Вивести кількість рядків (спостережень) дата фрейму
+
+```{r}
+nrow(hw4File)
+```
+
+# 5. Вивести останні 10 рядків дата фрейму
+
+```{r}
+tail(hw4File, 10)
+```
+
+# 6. Обчислити кількість значень «NA» в стовпці «Ozone»
+
+```{r}
+length(which(is.na(hw4File$Ozone)))
+```
+
+# 7. Обчислити середнє (mean) стовпця «Ozone». Виключити «NA» значення.
+
+```{r}
+mean(hw4File$Ozone[!is.na(hw4File$Ozone)])
+```
+
+# 8. Вивести частину набору даних (subset) зі значенням «Ozone» \> 31 та «Temp» \> 90. Яке середнє (mean) значень «Solar.R» в цьому наборі даних (subset)?
+
+```{r}
+my_subset <- subset(hw4File,(hw4File$Ozone > 31) & (hw4File$Temp > 90))
+my_subset
+
+cat('Mean for "Solar.R" \n')
+mean(my_subset$Solar.R)
+
+```
+
+# 9. Обчислити середнє значення (mean) для «Temp» для червня («Month» дорівнює 6)
+
+```{r}
+mean(subset(hw4File, (hw4File$Month == 6))$Temp)
+```
+
+# 10. Обчислити максимальне значення «Ozone» для травня («Month» дорівнює 5)
+
+```{r}
+max(subset(hw4File, (hw4File$Month == 5))$Ozone, na.rm = TRUE)
+```
