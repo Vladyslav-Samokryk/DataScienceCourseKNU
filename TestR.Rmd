@@ -1,0 +1,182 @@
+---
+title: "Дослідження Впливу вживання алкоголю учнями на їх успішність"
+author: "Test"
+date: "2022-11-20"
+output: html_document
+---
+
+```{r}
+
+library(ggplot2)
+library(plyr)
+library(dplyr)
+library(gridExtra)
+library(alluvial)
+library(waffle)
+library(extrafont)
+
+wFile <- read.table("D:/DataScience/specdata/student-por.csv",sep=",",header=TRUE)
+
+wFile$Dalc <- as.factor(wFile$Dalc)      
+wFile$Dalc <- mapvalues(wFile$Dalc, 
+                              from = 1:5, 
+                              to = c("Дуже мало", "Мало", "Середне", "Багато", "Дуже багато"))
+
+wFile$Walc <- as.factor(wFile$Walc)      
+wFile$Walc <- mapvalues(wFile$Walc, 
+                              from = 1:5, 
+                              to = c("Дуже мало", "Мало", "Середне", "Багато", "Дуже багато"))
+head(wFile, 10)
+```
+
+## Вибірка за школою та гендером
+
+Student's school (binary: 'GP' - Gabriel Pereira or 'MS' - Mousinho da Silveira)
+Student's sex (binary: 'F' - female or 'M' - male)
+
+```{r school, fig.height=6, fig.width=8}
+c3 <- ggplot(wFile, aes(x=Dalc, y=school, color=sex))+
+      geom_jitter(alpha=0.7)+
+       scale_colour_manual(values=c("#FFA500", "#0000FF"))+
+      theme_bw()+
+      xlab("Вживання алкоголю протягом робочого дня")+
+      ylab("Школа")+
+      ggtitle("Вживання алкоголю в робочі дні у розрізі університетів та статі")
+
+
+c4 <- ggplot(wFile, aes(x=Walc, y=school, color=sex))+
+      geom_jitter(alpha=0.7)+
+       scale_colour_manual(values=c("#32CD32", "#FF0000"))+
+      theme_bw()+
+      xlab("Вживання алкоголю протягом робочого дня")+
+      ylab("Школа")+
+      ggtitle("Вживання алкоголю в робочі дні у розрізі університетів та статі")
+
+grid.arrange(c3,c4, nrow=2)
+
+```
+
+## Вживання алкоголю в залежності від віку студента протягом робочих днів 
+
+
+```{r age, fig.height=4, fig.width=9}
+ggplot(wFile, aes(x=age, fill=Dalc))+
+      geom_histogram(binwidth=1, colour="black")+
+      facet_grid(~Dalc)+
+      theme_bw()+
+      theme(legend.position="none")+
+      ggtitle("Споживання алкоголю протягом робочого дня за віком")+
+      xlab("Вік учня")  
+```
+
+
+
+## Вживання алкоголю в залежності від віку студента протягом вихідних 
+
+
+```{r age2, fig.height=4, fig.width=9}
+ggplot(wFile, aes(x=age, fill=Walc))+
+      geom_histogram(binwidth=1, colour="black")+
+      facet_grid(~Walc)+
+      theme_bw()+
+      theme(legend.position="none")+
+      ggtitle("Споживання алкоголю у вихідні дні за віком")+
+      xlab("Вік учня")      
+
+```
+
+
+
+## Вживання алкоголю протягом робочого дня та вплив на успішність 
+
+
+```{r,,fig.height=5, fig.width=11}
+#workday
+c5 <- ggplot(wFile, aes(x=Dalc, y=G1, fill=Dalc))+
+      geom_boxplot()+
+      theme_bw()+
+      theme(legend.position="none")+
+      xlab("Вживання алкоголю")+
+      ylab("Оцінка")+
+      ggtitle("Оцінка за перший період навчання")
+
+c6 <- ggplot(wFile, aes(x=Dalc, y=G2, fill=Dalc))+
+      geom_boxplot()+
+      theme_bw()+
+      theme(legend.position="none")+
+      xlab("Вживання алкоголю")+
+      ylab("Оцінка")+
+      ggtitle("Оцінка за другий період навчання")
+
+c7 <- ggplot(wFile, aes(x=Dalc, y=G3, fill=Dalc))+
+      geom_boxplot()+
+      theme_bw()+
+      theme(legend.position="none")+
+      xlab("Вживання алкоголю")+
+      ylab("Оцінка")+
+      ggtitle("Оцінка за підсумковий семестр")
+
+grid.arrange(c5,c6,c7,ncol=3)
+```
+
+## Вживання алкоголю на вихідних та вплив на успішність 
+
+
+```{r, fig.height=5, fig.width=11}
+#weekend
+c8 <- ggplot(wFile, aes(x=Walc, y=G1, fill=Walc))+
+      geom_boxplot()+
+      theme_bw()+
+      theme(legend.position="none")+
+      xlab("Вживання алкоголю")+
+      ylab("Оцінка")+
+      ggtitle("Оцінка за перший період навчання")
+
+c9 <- ggplot(wFile, aes(x=Walc, y=G2, fill=Walc))+
+      geom_boxplot()+
+      theme_bw()+
+      theme(legend.position="none")+
+      xlab("Вживання алкоголю")+
+      ylab("Оцінка")+
+      ggtitle("Оцінка за другий період навчання")
+
+c10 <- ggplot(wFile, aes(x=Walc, y=G3, fill=Walc))+
+      geom_boxplot()+
+      theme_bw()+
+      theme(legend.position="none")+
+      xlab("Вживання алкоголю")+
+      ylab("Оцінка")+
+      ggtitle("Оцінка за підсумковий семестр")
+
+grid.arrange(c8,c9,c10,ncol=3)
+```
+
+## Взаємозв'язок між вживання алкоголю по буднях та пропусків занять у школі
+
+
+
+```{r health,fig.height=4, fig.width=9}
+ggplot(wFile, aes(x=Dalc, y=absences, fill=Dalc))+
+      geom_violin()+
+      theme_bw()+
+      theme(legend.position="none")+
+      ggtitle("Співвідношення споживання алкоголю по буднях та пропусків навчання за споживанням алкоголю")+
+      xlab("Споживання алкоголю")+
+      ylab("Кількість пропусків занять у школі")
+
+```
+Можна помітити, що форма з "Дуже великою" кількістю споживання алкоголю має цікаву форму, оскільки вона збільшується, в той час як інші мають тенденцію до зменшення.
+
+## Взаємозв'язок між вживання алкоголю у вихідні та пропусків занять у школі
+
+```{r health2,fig.height=4, fig.width=9}
+ggplot(wFile, aes(x=Walc, y=absences, fill=Walc))+
+      geom_violin()+
+      theme_bw()+
+      theme(legend.position="none")+
+      ggtitle("Співвідношення споживання алкоголю у вихідні та пропусків навчання за споживанням алкоголю")+
+      xlab("Споживання алкоголю")+
+      ylab("Кількість пропусків занять у школі")
+```
+
+Не очевидний зв'язок між вживанням алкоголю на вихідних та прогулами. Важко пояснити)
